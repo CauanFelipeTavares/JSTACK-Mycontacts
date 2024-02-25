@@ -1,0 +1,93 @@
+Requisição --(opicional)--> Middleware -> Controller -> Repository -> Response
+
+Controller: Trata as requisições, aplicando REGRAS DE NEGÓCIO, chamando PARAMETROS e decidindo MÉTODOS (repository)
+
+Repository: Define a tratativa dos métodos aplicados pelo Controller, definindo comandos e códigos aplicados para tratar o Dado em si. Isto que define daonde vem os dados (mocks, sql, nosql) e quais comandos usar.
+*OBS: Isso facilita transição de banco de dados, já que só esses métodos seriam alterados, enquanto a regra de negócios fica intacta, prevenindo erros criticos.
+**OBS: Isso faz a função do model (que modela os dados de acordo com a tecnologia usada)
+
+Middleware: Cria funções que bloqueam ou dão continuidade para a logica do Controller, usado para fazer verificações de necessidade inicial, como por exemplo autenticação JWT.
+
+ESLINT
+
+Iniciar eslint: npx eslint --init
+
+Opções devem ser completadas de acordo com necessidade.
+
+DOCKER
+
+Comandos:
+
+1) Baixar imagem do que rodará no container
+- docker pull postgres
+https://hub.docker.com/
+
+2) Lista todas imagens instaladas
+- docker image ls
+
+3) Criar conteiner
+- docker run --name pg -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -p 5432:5432 -d postgres
+-> --name = nome que quero dar ao container
+-> -e = define variaveis de ambiente
+-> -p = porta (5432 é a porta padrão do postgres: [porta do computador]:[porta do container])
+-> -d = executa o container em background, sem bloquear o cmd
+
+--> deve retornar uma hash
+
+4) Listar contaieners rodando
+- docker container ls (ou) docker ps
+
+5) Parar container
+- docker stop pg
+-> Pode parar a partir do nome ou hash (pique pm2)
+
+6) Listar todos os containers, independente de ativo ou parado
+- docker continer ls -a (ou) docker ps -a
+
+7) Iniciar novamente um container
+- docker start pg
+
+8) Apagar uma imagem
+- docker rmi postgres
+-> Colocar nome da imagem ou imagem ID
+-> Antes precisa deletar o(s) container(s) que usam essa imagem
+
+9) Apagar um container
+- docker container rm pg
+-> Colocar nome do container ou seu hash (estilo pm2)
+-> Antes precisa parar o container
+
+INTEGRAÇÃO DOCKER COM POSTGRE
+
+1) Executar container
+- docker exec -it pg bash
+-> -it: Refere-se que quero interagir com o container
+-> bash: Abre o ambiente de interação pelo bash
+
+2) Conectar ao postgree
+- psql -U root (usuario)
+
+3) Listar databases
+- \l
+
+4) Criar banco de dados
+- CREATE DATABASE mycontacts;
+-> Deve retornar o nome do comando, indicando exito
+
+5) Entrar dentro do banco de dados
+- \c mycontacts
+-> Retorno: You are now connected to database "mycontacts" as user "root".
+
+** Agora os comandos devem ser digitados diretamente nesse terminal, pois já estou conectado ao banco de dados que gostaria dentro do postgree do meu continer
+
+6) Incluir """biblioteca""" dentro do banco de dados (função de gerar uuid v4)
+- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+7) Criar tabela
+- CREATE TABLE IF NOT EXISTS categories(
+    id      UUID        NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
+    name    VARCHAR     NOT NULL
+);
+
+8) Listar tabelas
+- \dt
