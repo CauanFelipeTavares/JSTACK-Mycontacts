@@ -58,6 +58,7 @@ https://hub.docker.com/
 -> Antes precisa parar o container
 
 INTEGRAÇÃO DOCKER COM POSTGRE
+*PS: Necessário desinstalaro postgree da maquina local, pra na hora da conexão com o nome, ir diretamente para a instancia do docker
 
 1) Executar container
 - docker exec -it pg bash
