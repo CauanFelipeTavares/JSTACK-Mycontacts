@@ -80,13 +80,6 @@ class ContactController{
 
     // Deleta novo registro
     const { id } = req.params
-    const contact = await ContactRepository.findById(id)
-
-    if (!contact){
-
-      return res.status(404).json({ error: 'User not found' })
-
-    }
 
     await ContactRepository.delete(id)
 
