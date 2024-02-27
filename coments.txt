@@ -99,3 +99,21 @@ BIBLIOTECA PG
 - RETURNING *
 -> *: serve para retornar todas as linhas
 -> Entretanto eu poderia digitar o nome de cada coluna pra selecionar dados especificos pra serem retornados
+
+2) Uso do JOIN
+-   SELECT contacts.*, categories.name AS category_name
+    FROM contacts
+    LEFT JOIN categories ON categories.id = contacts.category_id
+-> É importante referenciar qual a tabela da coluna desejada por questão de duplicidade do nome da coluna. No caso da coluna id que existe em ambas as tabelas, é NECESSÁRIO referenciar qual a tabela dela
+
+2.1) INNER JOIN
+- Isso retorna apenas as linhas que possuem todos os relacionamentos e condições necessárias entre as colunas relacionadas.
+
+2.2) LEFT JOIN
+- Retona todos os elementos da primeira tabela
+
+2.3) RIGHT JOIN
+- Retorna todos os elementos da segunda tabela
+
+2.4) FULL JOIN
+- Retorna todos os elementos, tanto da primeira quanto da segunda tabela

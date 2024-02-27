@@ -9,8 +9,10 @@ class ContactRepository{
     const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC'
 
     const rows = await db.query(`
-        SELECT * FROM contacts
-        ORDER BY name ${direction}
+        SELECT contacts.*, categories.name AS category_name
+        FROM contacts
+        LEFT JOIN categories ON categories.id = contacts.category_id
+        ORDER BY contacts.name ${direction}
     `) // Ocultar o ASC faz o banco de dados interpretar como ASC
 
     return rows
@@ -20,8 +22,10 @@ class ContactRepository{
   async findById(id){
 
     const [row] = await db.query(`
-        SELECT * FROM contacts
-        WHERE id = $1
+        SELECT contacts.*, categories.name AS category_name
+        FROM contacts
+        LEFT JOIN categories ON categories.id = contacts.category_id
+        WHERE contacts.id = $1
     `, [id])
 
     return row
