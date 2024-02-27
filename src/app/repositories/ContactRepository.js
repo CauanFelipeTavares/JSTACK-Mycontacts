@@ -21,9 +21,16 @@ let contacts = [
 
 class ContactRepository{
 
-  async findAll(){
+  async findAll(orderBy = 'ASC'){ // Define um valor padrão pra caso não seja enviado
 
-    const rows = await db.query('SELECT * FROM contacts')
+    // Método para garantir que a direction seja sempre DESC ou ASC
+
+    const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC'
+
+    const rows = await db.query(`
+        SELECT * FROM contacts
+        ORDER BY name ${direction}
+    `) // Ocultar o ASC faz o banco de dados interpretar como ASC
 
     return rows
 
