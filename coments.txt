@@ -92,3 +92,10 @@ INTEGRAÇÃO DOCKER COM POSTGRE
 
 8) Listar tabelas
 - \dt
+
+BIBLIOTECA PG
+
+1) Retorno de informações especificas
+- RETURNING *
+-> *: serve para retornar todas as linhas
+-> Entretanto eu poderia digitar o nome de cada coluna pra selecionar dados especificos pra serem retornados

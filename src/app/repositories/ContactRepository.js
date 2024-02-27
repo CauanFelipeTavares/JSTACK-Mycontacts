@@ -1,5 +1,7 @@
 const { v4 } = require('uuid')
 
+const db = require('../../database')
+
 let contacts = [
   {
     id: v4(),
@@ -49,22 +51,34 @@ class ContactRepository{
 
   }
 
-  create(name, email, phone, category_id){
+  async create(name, email, phone, category_id){
 
-    return new Promise((res) => {
+    /*
 
-      const newContact = {
-        id: v4(),
-        name,
-        email,
-        phone,
-        category_id,
-      }
+        ISSO PERMITE SQL INJECTION
+        Ex: name = ';
 
-      contacts.push(newContact)
-      res(contacts)
+        INSERT INTO contacts(name, email, phone, category_id)
+        VALUES('${name}', '${email}', '${phone}', '${category_id}')
 
-    })
+    */
+
+    const [row] = await db.query(`
+        INSERT INTO contacts(name, email, phone, category_id)
+        VALUES($1, $2, $3, $4)
+        RETURNING *
+    `, [name, email, phone, category_id])
+
+    /*
+
+        $1 -> name
+        $2 -> email
+        $3 -> phone
+        $4 -> category_id
+
+    */
+
+    return row
 
   }
 
