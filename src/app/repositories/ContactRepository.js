@@ -21,33 +21,33 @@ let contacts = [
 
 class ContactRepository{
 
-  findAll(){
+  async findAll(){
 
-    return new Promise((res) => {
+    const rows = await db.query('SELECT * FROM contacts')
 
-      res(contacts)
-
-    })
+    return rows
 
   }
 
-  findById(id){
+  async findById(id){
 
-    return new Promise((res) => {
+    const [row] = await db.query(`
+        SELECT * FROM contacts
+        WHERE id = $1
+    `, [id])
 
-      res(contacts.find((contact) => contact.id === id))
-
-    })
+    return row
 
   }
 
-  findByEmail(email){
+  async findByEmail(email){
 
-    return new Promise((res) => {
+    const [row] = await db.query(`
+        SELECT * FROM contacts
+        WHERE email = $1
+    `, [email])
 
-      res(contacts.find((contact) => contact.email === email))
-
-    })
+    return row
 
   }
 
