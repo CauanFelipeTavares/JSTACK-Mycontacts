@@ -13,6 +13,13 @@ client.connect()
 exports.query = async (query, values) => {
 
   const { rows } = await client.query(query, values)
+    .catch((err) => { // Adição pessoal pra qualquer erro de query não quebrar a aplicação
+
+      console.log(`Erro na query: ${err}`)
+
+      return false
+
+    })
 
   return rows
 
